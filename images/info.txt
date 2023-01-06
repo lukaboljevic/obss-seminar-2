@@ -1,0 +1,6 @@
+Image name format: subjectString-subfolder1-subfolder2-image.png
+
+S1 - subject 000302-01
+S2 - subject 240163-01
+S3 - subject 040839950-01
+

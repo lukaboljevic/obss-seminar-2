@@ -1,8 +1,13 @@
 % Set constants
-imageFolder = "3D-images-2";  % "3D-images" or "3D-images-2"
+imageFolder = "3D-images";  % "3D-images" or "3D-images-2"
 sigmaPercent = 0.005;
-TL = 12;
-TH = 40;
+if imageFolder == "3D-images"
+    TL = 12;
+    TH = 42;
+else
+    TL = 15;
+    TH = 45;
+end
 thin = true;
 
 

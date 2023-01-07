@@ -69,6 +69,6 @@ function [result] = marr(imageFolder, imageName, sigmaPercent, threshold, save, 
     if save
         outputFile = strcat(imageFolder, "/", imageName(1:end-4), "_" , ...
             num2str(sigmaPercent), ",", num2str(threshold), ".png");
-        imwrite(zerosimage, outputFile);
+        imwrite(result, outputFile);
     end
 end

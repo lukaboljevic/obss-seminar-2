@@ -2,30 +2,37 @@ function [slices] = marr3D(imageFolder, sigmaPercent, TL, TH, thin)
 % Perform Marr-Hildreth edge detection in 3D
 
     % Get all images
-    images = dir(strcat(imageFolder, '/*_*.png'));
+    images = dir(strcat(imageFolder, '/*.png'));
 
     % Read already existing files, or detect edges
     slices = {};
     k = 1;
     for i=1:length(images)
-        if ~contains(images(i).name, sprintf("%.3f,%d-%d", sigmaPercent, TL, TH))
+        if contains(images(i).name, "_")
+            % skip images where edges are detected, we just want the originals
+            continue
+        end
+
+        fName = sprintf("%s/%s_%.3f,%d-%d.png", imageFolder, ...
+            images(i).name(1:end-4), sigmaPercent, TL, TH);
+
+        if ~isfile(fName)
             % Detect edges first
             disp("Detecting edges for " + images(i).name + "...");
-            [result] = marrLinking(imageFolder, images(i).name, sigmaPercent, TL, TH, 1, 0);
+            [result] = marrLinking(imageFolder, images(i).name, sigmaPercent, TL, TH, false, true, false);
             slices{k} = result;
             k = k + 1;
         else
             % We already detected edges for these parameter settings
-            fName = strcat(imageFolder, '/', images(i).name);
-            disp("Edges detected for " + images(i).name + "!");
+            disp("Edges detected: " + fName);
             slices{k} = im2double(imread(fName));
             k = k + 1;
         end
     end
     
-    % Do edge linking with 24 connectivity between consecutive image
-%     slices. We can go backwards or forwards.
+    % Do edge linking with 24 connectivity between consecutive image slices. 
     [height, width] = size(slices{1});
+    
 %     for curr=1:length(marrImages)-1  % forwards
     for curr=length(slices):-1:2  % backwards
         img1 = slices{curr};  % image "n"

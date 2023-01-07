@@ -118,26 +118,37 @@ function [result] = marrLinking(imageFolder, imageName, sigmaPercent, TL, TH, th
         end
     end
 
-    % Show result edge linking (and optionally, thin the edges).
+    % Optionally thin the edges
+    if thin
+        strong = bwmorph(strong, 'thin');
+    end
+
+    % Show result edge linking (and optional edge thinning).
     if plot
         f2 = figure(); subplot(1, 2, 1); imshow(image, []); title("Original image");
-        subplot(1, 2, 2); imshow(strong, []); title("Detected edges after linking, TH = " + TH + ", TL = " + TL);
-%         subplot(1, 3, 3); imshow(bwmorph(strong, "thin"), []); title("Edge thinning");
+        subplot(1, 2, 2); imshow(strong, []);
+
+        titleText = "Detected edges after linking, TH = " + TH + ", TL = " + TL;
+        if thin
+            titleText = titleText + ", + thinning";
+        end
+        title(titleText);
         f2.WindowState = "maximized";
     end
     result = strong;
-
-    % Optionally thin the edges
-    if thin
-        result = bwmorph(strong, 'thin');
-    end
+    
 
     % Save
     if save
         outputFile = strcat(imageFolder, "/", imageName(1:end-4), "_" , ...
-            num2str(sigmaPercent), ",", num2str(TL), "-", num2str(TH), ".png");
-        % CHANGE WHAT WE'RE SAVING
-        imwrite(strong, outputFile);
+            num2str(sigmaPercent), ",", num2str(TL), "-", num2str(TH));
+        if thin
+            outputFile = outputFile + ",thin.png";
+        else
+            outputFile = outputFile + ".png";
+        end
+
+        imwrite(result, outputFile);
     end
 end
 

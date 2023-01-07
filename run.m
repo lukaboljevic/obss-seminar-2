@@ -10,6 +10,7 @@
 % TL = 2;
 % TH = 8;
 
+
 % Subject 2 (these two slices come from `3D-images` and `3D-images-2`)
 % image = "S2-first-2-0017.png";  % ~25; ~12-42
 image = "S2-first-4-0101.png";  % ~25; ~15-45
@@ -17,6 +18,7 @@ sigmaPercent = 0.005;
 threshold = 25;
 TL = 15;
 TH = 45;
+
 
 % Subject 3.1
 % image = "S3-first-2-0002.png";  % ~20; ~12-40

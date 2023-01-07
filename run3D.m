@@ -11,7 +11,7 @@ end
 thin = true;
 
 
-% Show original images in 3D
+% Show original slices in 3D
 images = dir(strcat(imageFolder, '/*.png'));  % ignore . and ..
 original = {};
 k = 1;
